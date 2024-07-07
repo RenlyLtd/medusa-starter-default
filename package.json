@@ -70,7 +70,7 @@
     "typescript": "^4.5.2"
   },
   "overrides": {
-    "medusa-interfaces": "1.3.9"
+    "medusa-interfaces": "latest"
   },
   "jest": {
     "globals": {

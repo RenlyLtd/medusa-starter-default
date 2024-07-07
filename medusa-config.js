@@ -49,15 +49,21 @@ const plugins = [
     },
   },
   {
-    resolve: `medusa-file-minio`,
+    resolve: `@medusajs/file-local`,
     options: {
-      endpoint: process.env.MINIO_ENDPOINT,
-      bucket: process.env.MINIO_BUCKET,
-      access_key_id: process.env.MINIO_ACCESS_KEY,
-      secret_access_key: process.env.MINIO_SECRET_KEY,
-      private_bucket: process.env.MINIO_PRIVATE_BUCKET,
+      backend_url: process.env.RAILWAY_PUBLIC_DOMAIN,
     },
   },
+  // {
+  //   resolve: `medusa-file-minio`,
+  //   options: {
+  //     endpoint: process.env.MINIO_ENDPOINT,
+  //     bucket: process.env.MINIO_BUCKET,
+  //     access_key_id: process.env.MINIO_ACCESS_KEY,
+  //     secret_access_key: process.env.MINIO_SECRET_KEY,
+  //     private_bucket: process.env.MINIO_PRIVATE_BUCKET,
+  //   },
+  // },
   {
     resolve: `medusa-payment-stripe`,
     options: {

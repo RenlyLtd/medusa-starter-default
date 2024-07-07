@@ -23,10 +23,12 @@ try {
 
 // CORS when consuming Medusa from admin
 const ADMIN_CORS =
-  process.env.ADMIN_CORS || "http://localhost:7000,http://localhost:7001";
+  process.env.ADMIN_CORS ||
+  "http://localhost:7000,http://localhost:7001,http://localhost:9000";
 
 // CORS to avoid issues when consuming Medusa from a client
-const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
+const STORE_CORS =
+  process.env.STORE_CORS || "http://localhost:8000,http://localhost:5173";
 
 const DATABASE_URL =
   process.env.DATABASE_URL || "postgres://localhost/medusa-starter-default";
@@ -52,21 +54,102 @@ const plugins = [
       },
     },
   },
+  {
+    resolve: `medusa-file-minio`,
+    options: {
+      endpoint: process.env.MINIO_ENDPOINT,
+      bucket: process.env.MINIO_BUCKET,
+      access_key_id: process.env.MINIO_ACCESS_KEY,
+      secret_access_key: process.env.MINIO_SECRET_KEY,
+      private_bucket: process.env.MINIO_PRIVATE_BUCKET,
+    },
+  },
+  {
+    resolve: `medusa-payment-stripe`,
+    options: {
+      api_key: process.env.STRIPE_API_KEY,
+      webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
+    },
+  },
+  {
+    resolve: `medusa-plugin-wishlist`,
+  },
+  {
+    resolve: `medusa-plugin-discount-generator`,
+  },
+  {
+    resolve: `medusa-plugin-restock-notification`,
+  },
+  {
+    resolve: `medusa-plugin-nodemailer`,
+    options: {
+      fromEmail: "noreply@ayla.shop",
+      transport: {
+        host: "smtp.hostinger.com",
+        port: 465,
+        secureConnection: false,
+        auth: {
+          user: process.env.EMAIL_SENDER_ADDRESS,
+          pass: process.env.EMAIL_SENDER_PASS,
+        },
+        tls: {
+          ciphers: "SSLv3",
+        },
+        requireTLS: true,
+      },
+      // this is the path where your email templates are stored
+      emailTemplatePath: "data/emailTemplates",
+      // this maps the folder/template name to a medusajs event to use the right template
+      // only the events that are registered here are subscribed to
+      templateMap: {
+        // "eventname": "templatename",
+        "order.placed": "orderplaced",
+      },
+    },
+  },
+  {
+    resolve: `medusa-plugin-meilisearch`,
+    options: {
+      config: {
+        host: process.env.MEILISEARCH_HOST,
+        apiKey: process.env.MEILISEARCH_API_KEY,
+      },
+      settings: {
+        products: {
+          indexSettings: {
+            searchableAttributes: ["title", "description", "variant_sku"],
+            displayedAttributes: [
+              "title",
+              "description",
+              "variant_sku",
+              "thumbnail",
+              "handle",
+            ],
+          },
+          primaryKey: "id",
+          transformer: (product) => ({
+            id: product.id,
+            // other attributes...
+          }),
+        },
+      },
+    },
+  },
 ];
 
 const modules = {
-  /*eventBus: {
+  eventBus: {
     resolve: "@medusajs/event-bus-redis",
     options: {
-      redisUrl: REDIS_URL
-    }
+      redisUrl: REDIS_URL,
+    },
   },
   cacheService: {
     resolve: "@medusajs/cache-redis",
     options: {
-      redisUrl: REDIS_URL
-    }
-  },*/
+      redisUrl: REDIS_URL,
+    },
+  },
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule["projectConfig"]} */
@@ -77,7 +160,7 @@ const projectConfig = {
   database_url: DATABASE_URL,
   admin_cors: ADMIN_CORS,
   // Uncomment the following lines to enable REDIS
-  // redis_url: REDIS_URL
+  redis_url: REDIS_URL,
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule} */

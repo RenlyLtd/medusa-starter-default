@@ -125,10 +125,6 @@ const plugins = [
             ],
           },
           primaryKey: "id",
-          transformer: (product) => ({
-            id: product.id,
-            // other attributes...
-          }),
         },
       },
     },

@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Password Reset Request
+
+  body
+    h1 Password Reset Request
+    p Dear #{customerName},
+    p We received a request to reset your password.
+    p Click the link below to reset your password:
+    a(href="#{resetLink}") Reset Password
+    p If you did not request a password reset, please ignore this email.
+    p Best regards,
+    p The Ayla Shop Team

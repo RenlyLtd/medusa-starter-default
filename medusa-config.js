@@ -84,6 +84,7 @@ const plugins = [
       fromEmail: "noreply@ayla.shop",
       // this object is input directly into nodemailer.createtransport(), so anything that works there should work here
       // see: https://nodemailer.com/smtp/#1-single-connection and https://nodemailer.com/transports/
+
       transport: {
         host: "smtp.hostinger.com",
         port: 465,
@@ -102,9 +103,20 @@ const plugins = [
       // this maps the folder/template name to a medusajs event to use the right template
       // only the events that are registered here are subscribed to
       templateMap: {
-        // "eventname": "templatename",
-        "order.placed": "orderplaced",
-        "user.password.reset": "userpasswordreset",
+        "order.placed": "order_placed",
+        "order.shipped": "order_shipped",
+        "user.password_reset": "user_password_reset",
+        "customer.password_reset": "customer_password_reset",
+        "gift_card.created": "gift_card_created",
+        "order.canceled": "order_canceled",
+        "order.refund_created": "order_refund_created",
+        "order.return_requested": "order_return_requested",
+        "order.items_returned": "order_items_returned",
+        // "swap.created": "swap_created",
+        // "swap.shipment_created": "swap_shipment_created",
+        // "swap.received": "swap_received",
+        // "claim.shipment_created": "claim_shipment_created",
+        // "medusa.restock": "medusa_restock",
       },
     },
   },

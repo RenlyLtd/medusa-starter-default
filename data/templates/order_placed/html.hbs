@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Placed</title>
+  </head>
+  <body>
+    <h1>Order Placed</h1>
+    <p>Dear
+      {{#with customer}}
+        {{first_name}}
+        {{last_name}}
+      {{/with}},</p>
+    <p>Thank you for your order!</p>
+    <p>Order Number: {{id}}</p>
+    <p>We will notify you once your order has been shipped.</p>
+    <p>Best regards,</p>
+    <p>The Ayla Shop Team</p>
+  </body>
+</html>

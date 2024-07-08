@@ -45,6 +45,7 @@
     "medusa-plugin-meilisearch": "^2.0.10",
     "medusa-plugin-nodemailer": "^0.1.4",
     "medusa-plugin-restock-notification": "^7.0.3",
+    "medusa-plugin-ses": "^2.2.3",
     "medusa-plugin-wishlist": "^1.1.43",
     "prism-react-renderer": "^2.0.4",
     "typeorm": "^0.3.16"

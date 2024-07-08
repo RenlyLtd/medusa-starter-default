@@ -82,6 +82,8 @@ const plugins = [
     resolve: `medusa-plugin-nodemailer`,
     options: {
       fromEmail: "noreply@ayla.shop",
+      // this object is input directly into nodemailer.createtransport(), so anything that works there should work here
+      // see: https://nodemailer.com/smtp/#1-single-connection and https://nodemailer.com/transports/
       transport: {
         host: "smtp.hostinger.com",
         port: 465,
@@ -96,15 +98,41 @@ const plugins = [
         requireTLS: true,
       },
       // this is the path where your email templates are stored
-      emailTemplatePath: "data/emailTemplates",
+      emailTemplatePath: "data/templates",
       // this maps the folder/template name to a medusajs event to use the right template
       // only the events that are registered here are subscribed to
       templateMap: {
         // "eventname": "templatename",
         "order.placed": "orderplaced",
+        "user.password.reset": "userpasswordreset",
       },
     },
   },
+  // {
+  //   resolve: `medusa-plugin-ses`,
+  //   options: {
+  //     access_key_id: process.env.SES_ACCESS_KEY_ID,
+  //     secret_access_key: process.env.SES_SECRET_ACCESS_KEY,
+  //     region: process.env.SES_REGION,
+  //     from: process.env.SES_FROM,
+  //     enable_endpoint: process.env.SES_ENABLE_ENDPOINT,
+  //     template_path: process.env.SES_TEMPLATE_PATH,
+  //     order_placed_template: "order_placed",
+  //     order_shipped_template: "order_shipped",
+  //     user_password_reset_template: "user_password_reset",
+  //     customer_password_reset_template: "customer_password_reset",
+  //     gift_card_created_template: "gift_card_created",
+  //     order_canceled_template: "order_canceled",
+  //     order_refund_created_template: "order_refund_created",
+  //     order_return_requested_template: "order_return_requested",
+  //     order_items_returned_template: "order_items_returned",
+  //     // swap_created_template: 'swap_created',
+  //     // swap_shipment_created_template: 'swap_shipment_created',
+  //     // swap_received_template: 'swap_received',
+  //     // claim_shipment_created_template: 'claim_shipment_created',
+  //     medusa_restock_template: "medusa_restock",
+  //   },
+  // },
   {
     resolve: `medusa-plugin-meilisearch`,
     options: {
